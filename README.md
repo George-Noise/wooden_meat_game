@@ -5,9 +5,10 @@ TODO
 
 ```sh
 export VOXELCORE_DIR=$HOME/dev/voxelcore-0.32.2
-export VOXELCORE_DIR=$HOME/dev/voxelcore-game-jam-26 # чёт не пашет, пишет что нет project.toml, хотя я ничего не менял в scr
-
 export VOXELCORE=$VOXELCORE_DIR/result/bin/VoxelEngine
+
+export VOXELCORE_DIR=$HOME/dev/voxelcore-game-jam-26
+export VOXELCORE=$VOXELCORE_DIR/result/bin/VoxelCore # переименовано в VoxelCore
 
 # run
 WAYLAND_DISPLAY= XDG_SESSION_TYPE=x11 \
