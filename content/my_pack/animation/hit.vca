@@ -1,0 +1,5 @@
+@rotate bone "body" by y curve linear {
+	@key frame 0 value 0
+	@key frame 5 value 15
+	@key frame 10 value 0
+}
