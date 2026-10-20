@@ -1,0 +1,12 @@
+{
+  "entities": [
+    "turret",
+    "nepis"
+  ],
+  "items": [
+    "spawn_turret",
+    "shotgun",
+    "spawn_nepis"
+  ],
+  "blocks": []
+}

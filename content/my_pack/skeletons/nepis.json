@@ -1,0 +1,17 @@
+{
+  "root": {
+    "nodes": [
+      {
+        "name": "body",
+        "offset": [0, 0, 0],
+        "nodes": [
+          {
+            "name": "body2",
+            "model": "nepis",
+            "offset": [-0.5, -0.5, -0.5]
+          }
+        ]
+      }
+    ]
+  }
+}

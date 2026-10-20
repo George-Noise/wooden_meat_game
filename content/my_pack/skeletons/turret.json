@@ -1,0 +1,11 @@
+{
+  "root": {
+    "nodes": [
+      {
+        "name": "body",
+        "model": "turret",
+        "offset": [-0.5, -0.5, -0.5]
+      }
+    ]
+  }
+}
