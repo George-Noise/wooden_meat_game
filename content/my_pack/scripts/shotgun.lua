@@ -1,6 +1,6 @@
 function on_use(pid)
-	audio.play_sound_2d("shotgun", 1.0, 1.0)
-	audio.play_sound_2d("shotgun", 1.0, 0.8)
+	audio.play_sound_2d("shotgun", 0.5, 0.6)
+	audio.play_sound_2d("shotgun", 0.5, 0.4)
 
 	-- local pos = { player.get_pos(pid) }
 	local dir = player.get_dir(pid)

@@ -16,10 +16,8 @@ function on_used(pid)
 		player_dir[3],
 	}
 	
-	-- audio.play_sound_2d("shotgun", 1.0, 1.0)
-	-- audio.play_sound_2d("shotgun", 1.0, 0.8)
-	audio.play_sound("shotgun", start[1], start[2], start[3], 1.0, 1.0)
-	audio.play_sound("shotgun", start[1], start[2], start[3], 1.0, 0.8)
+	audio.play_sound("shotgun", start[1], start[2], start[3], 0.6, 0.6)
+	audio.play_sound("shotgun", start[1], start[2], start[3], 0.6, 0.4)
 
 	local ray = world.raycast({
 		start = start,
