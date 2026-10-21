@@ -5,6 +5,31 @@ local skeleton = entity.skeleton
 local gun_hand_idx = skeleton and skeleton:index("gun_hand")
 local last_target_uid = nil
 
+local MUZZLE_FLASH = {
+	texture = "gfx/muzzle_flash",
+	lifetime = 0.05,
+	spawn_interval = 0,
+	count = 10,
+	size = { 0.1, 0.1, 0.1 },
+	velocity = { 0, 0, 0 },
+	explosion = { 3, 3, 3 },
+	spawn_shape = "sphere",
+	lighting = false,
+	acceleration = { 0, 0, 0 },
+}
+
+local TRACER = {
+	texture = "gfx/tracer",
+	lifetime = 1.08,
+	spawn_interval = 0,
+	count = 1,
+	size = { 0.1, 0.1, 0.1 },
+	spawn_shape = "box",
+	spawn_spread = { 0, 0, 0 },
+	lighting = false,
+	acceleration = { 0, 0, 0 },
+}
+
 function on_update(tps)
 	cooldown = cooldown - 1.0 / tps
 
@@ -62,7 +87,7 @@ function find_target()
 	return closest_target
 end
 
--- muzzle - дуло
+-- muzzle - дуло, но позиция не совсем верная, это центр ружъя, TODO переименовать может быть когда нибудь
 function get_muzzle_pos()
 	local pos = entity.transform:get_pos()
 	return {
@@ -96,8 +121,16 @@ function fire(target)
 		muzzle[3] + dir[3] * 0.3,
 	}
 
+	local muzzle_pos = {
+		muzzle[1] + dir[1] * 0.6,
+		muzzle[2] + dir[2] * 0.6,
+		muzzle[3] + dir[3] * 0.6,
+	}
+
 	audio.play_sound("shotgun", start_pos[1], start_pos[2], start_pos[3], 0.6, 0.6)
 	audio.play_sound("shotgun", start_pos[1], start_pos[2], start_pos[3], 0.6, 0.4)
+	gfx.particles.emit(muzzle_pos, 8, MUZZLE_FLASH)
+	gfx.particles.emit(muzzle_pos, 1, TRACER, { velocity = { dir[1] * 100, dir[2] * 100, dir[3] * 100 } })
 
 	local ray = world.raycast({
 		start = start_pos,
