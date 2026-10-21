@@ -1,6 +1,5 @@
 {
-  "components": ["my_pack:turret", "my_pack:despawn_on_attacked"],
+  "components": ["my_pack:turret_targeting", "my_pack:despawn_on_attacked"],
   "hitbox": [0.5, 1.0, 0.5],
-  "body-type": "static",
-  "solid": true
+  "body-type": "static"
 }

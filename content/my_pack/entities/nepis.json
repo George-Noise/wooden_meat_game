@@ -1,6 +1,14 @@
 {
-  "components": ["my_pack:health"],
+  "components": [
+    "my_pack:health",
+    "my_pack:enemy",
+    {
+      "name": "my_pack:patrol_ai",
+      "args": {
+        "patrol_size": 10
+      }
+    }
+  ],
   "hitbox": [1.0, 1.0, 1.0],
-  "body-type": "static",
-  "solid": true
+  "body-type": "rigidbody"
 }
