@@ -1,9 +1,5 @@
 {
-  "animation": [
-    "hit",
-    "rip"
-  ],
-  "sounds": [
-    "shotgun"
-  ]
+  "animation": ["hit", "rip"],
+  "sounds": ["shotgun"],
+  "textures": ["gfx/muzzle_flash", "gfx/tracer"]
 }
