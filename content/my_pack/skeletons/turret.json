@@ -4,7 +4,20 @@
       {
         "name": "body",
         "model": "turret",
-        "offset": [-0.5, -0.5, -0.5]
+        "offset": [-0.5, -0.5, -0.5],
+        "nodes": [
+          {
+            "name": "gun_hand",
+            "offset": [0.5, 1.0, 0.5],
+            "nodes": [
+              {
+                "name": "gun",
+                "model": "shotgun",
+                "offset": [0, 0, 0]
+              }
+            ]
+          }
+        ]
       }
     ]
   }

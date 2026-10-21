@@ -1,6 +1,7 @@
 {
   "animation": [
-    "hit"
+    "hit",
+    "rip"
   ],
   "sounds": [
     "shotgun"

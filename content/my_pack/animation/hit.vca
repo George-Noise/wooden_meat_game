@@ -1,5 +1,13 @@
 @rotate bone "body" by y curve linear {
 	@key frame 0 value 0
-	@key frame 5 value 15
-	@key frame 10 value 0
+	@key frame 2 value 7
+	@key frame 6 value -7
+	@key frame 10 value 7
+	@key frame 12 value 0
+}
+
+@move bone "body" by y curve linear {
+	@key frame 0 value 0
+	@key frame 6 value 0.25
+	@key frame 12 value 0
 }
