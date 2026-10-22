@@ -1,0 +1,8 @@
+@box from (0, 0, 0) to (1, 0.5, 1) {
+    @part tags (top) texture "blocks:transport_belt_top"
+    @part tags (bottom) texture "blocks:transport_belt_bottom"
+    @part tags (west) texture "blocks:transport_belt_left" region(0, 0, 1, 1)
+    @part tags (east) texture "blocks:transport_belt_left" region(1, 0, 0, 1)
+    @part tags (north) texture "blocks:transport_belt_face" region(0, 0, 1, 1)
+    @part tags (south) texture "blocks:transport_belt_face" region(0, 1, 1, 0)
+}
