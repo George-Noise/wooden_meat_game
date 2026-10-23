@@ -1,0 +1,11 @@
+{
+  "caption": "Creator Belt",
+  "texture": "box",
+  "model": "custom",
+  "model-name": "creator_belt",
+  "rotation": "pane",
+  "hitbox": [0, 0, 0, 1, 0.5, 1],
+  "light-passing": true,
+  "sky-light-passing": true,
+  "material": "base:metal"
+}
