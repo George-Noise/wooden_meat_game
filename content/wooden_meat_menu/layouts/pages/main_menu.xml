@@ -1,0 +1,5 @@
+<panel size='400' color='0' interval='1' context='menu'>
+  <button onclick='on_start_game()'>@Start Game</button>
+  <button onclick='on_close_world()'>@Save and Quit</button>
+  <button onclick='on_quit()'>@Quit</button>
+</panel>
