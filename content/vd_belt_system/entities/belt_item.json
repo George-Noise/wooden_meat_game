@@ -1,0 +1,10 @@
+{
+  "components": [
+    "vd_belt_system:belt_item",
+    "vd_belt_system:despawn_on_attacked"
+  ],
+  "hitbox": [0.3, 0.3, 0.3],
+  "body-type": "static",
+  "solid": false,
+  "blocking": false
+}

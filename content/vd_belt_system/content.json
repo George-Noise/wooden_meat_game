@@ -1,0 +1,11 @@
+{
+  "entities": [
+    "belt_item"
+  ],
+  "blocks": [
+    "transport_belt",
+    "destroyer_belt",
+    "creator_belt"
+  ],
+  "items": []
+}
