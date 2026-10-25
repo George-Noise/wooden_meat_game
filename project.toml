@@ -1,4 +1,4 @@
 name = "wooden_meat_game"
 title = "Wooden Meat Game"
-base_packs = ["base", "wooden_meat_menu"]
+base_packs = ["base", "kompot", "wooden_meat_menu"]
 permissions = []
