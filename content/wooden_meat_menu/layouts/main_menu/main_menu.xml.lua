@@ -1,88 +1,94 @@
 local K = require("kompot:kompot")
-local UI = require("kompot:ui")
+local DS = require("wooden_meat_menu:wm_ds")
 local M = K.M
-local S = K.Shape
+local app_bridge = require("wooden_meat_menu:app_bridge")
+local sfx = require("wooden_meat_menu:sfx")
 
-local theme = UI.theme({
-	colors = {
-		primary = "#8B5CF6",
-		on_primary = "#FFFFFF",
-		surface = "#2A2A2A",
+local BUTTON_WIDTH = 350
+
+local theme = DS.theme({
+	metrics = {
+		shadow_direction = DS.SHADOW.bottom_left,
 	},
 })
 
-local BUTTON_WIDTH = 350
-local PILL_SHAPE = S.rounded(S.percent(50))
-local TEXT_PADDING_H = 40
-
-local function CustomButton(props)
-	local hovered = K.state(false)
-	local pressed = K.state(false)
-
-	local bg_color = pressed.value and "#6B4CD6" or (hovered.value and "#9B6CF6" or "#8B5CF6")
-
-	K.Box({
-		modifier = M:width(BUTTON_WIDTH)
-			:background(bg_color, PILL_SHAPE)
-			:clip(PILL_SHAPE)
-			:clickable(props.on_click, {
-				on_focus = function()
-					pressed.value = true
-				end,
-				on_defocus = function()
-					pressed.value = false
-				end,
-			})
-			:hoverable(hovered)
-			:padding(TEXT_PADDING_H, 12, TEXT_PADDING_H, 12)
-			:then_(props.modifier),
-	}, function()
-		K.Text(props.text or "", {
-			style = "label",
-			color = "#FFFFFF",
-			wrap = true,
-			modifier = M:align("center"),
-		})
-	end)
-end
-
 local Screen = K.component(function()
-	K.Box({ modifier = M:fill_max_size() }, function()
-		K.Column({
+	K.Box({
+		modifier = M:fill_max_size():background(theme.colors.background):block_pointer(),
+	}, function()
+		K.Image("gui/menu_background", {
+			source_size = { 1920, 1080 },
+			fit = "cover",
 			modifier = M:fill_max_size(),
-			arrangement = "center",
+		})
+
+		-- K.Box({
+		-- 	modifier = M:match_parent_size():background(K.color.with_alpha(theme.colors.background, 0.4)),
+		-- })
+
+		K.Column({
+			modifier = M:padding(48):match_parent_size(), -- :background(K.color.with_alpha(theme.colors.background, 0.4))
+			arrangement = "end",
+			width = BUTTON_WIDTH,
 			spacing = 20,
 		}, function()
-			CustomButton({
-				text = "Кнопка-капсула",
-				on_click = function()
-					print("Клик по первой кнопке!")
-				end,
-				modifier = M:align("center"),
+			K.Text("WOODEN MEAT", {
+				style = "display",
+				color = theme.colors.primary,
+				modifier = M:padding(0, 0, 0, 24),
 			})
 
-			CustomButton({
-				text = "Длинный текст с пробелами между словами который переносится на несколько строк",
+			DS.Button({
+				text = "ИГРАТЬ",
+				size = "lg",
+				width = BUTTON_WIDTH,
+				modifier = M:align("start"),
 				on_click = function()
-					print("Клик по второй кнопке!")
+					sfx.main_menu_btn_click()
+					-- TODO: bridge.app... (запуск мира)
 				end,
-				modifier = M:align("center"),
 			})
 
-			CustomButton({
-				text = "Длинный текст с пробелами между словами ",
+			DS.Button({
+				text = "НАСТРОЙКИ",
+				size = "lg",
+				width = BUTTON_WIDTH,
+				modifier = M:align("start"),
 				on_click = function()
-					print("Клик по второй кнопке!")
+					sfx.main_menu_btn_click()
 				end,
-				modifier = M:align("center"),
+			})
+
+			DS.Button({
+				text = "СОХРАНЕНИЯ",
+				size = "lg",
+				width = BUTTON_WIDTH,
+				modifier = M:align("start"),
+				on_click = function()
+					sfx.main_menu_btn_click()
+				end,
+			})
+
+			DS.Button({
+				text = "ВЫЙТИ",
+				size = "lg",
+				width = BUTTON_WIDTH,
+				modifier = M:align("start"),
+				on_click = function()
+					sfx.main_menu_btn_click()
+					app_bridge.app.quit(true)
+				end,
 			})
 		end)
 	end)
 end)
 
-local handle
-
+local handle -- из-за того что приходится использовать кастыль для показа меню - приходится делать кастыль тут, иначе 2 клика по одному нажатию lmb
 function on_open()
+	if handle then
+		print("WARNING: handle already exists, disposing old one")
+		handle:dispose()
+	end
 	handle = K.mount({
 		target = document.root,
 		theme = theme,
