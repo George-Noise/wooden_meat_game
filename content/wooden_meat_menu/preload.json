@@ -1,0 +1,13 @@
+{
+  "textures": ["gui/menu_background"],
+  "sounds": [
+    "sharpie-on-wood-106784/1",
+    "sharpie-on-wood-106784/2",
+    "sharpie-on-wood-106784/3",
+    "sharpie-on-wood-106784/4",
+    "sharpie-on-wood-106784/6",
+    "sharpie-on-wood-106784/7",
+    "sharpie-on-wood-106784/8",
+    "sharpie-on-wood-106784/9"
+  ]
+}
