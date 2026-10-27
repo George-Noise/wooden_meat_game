@@ -35,6 +35,9 @@ T.METRICS = {
 	shadow_hover_lift = 2,
 	icon = 18,
 	gap = 8,
+	scroll_w = 32,
+	scroll_thumb_min_ratio = 0.10,
+	scroll_thumb_max_ratio = 0.75,
 }
 
 T.MOTION = {

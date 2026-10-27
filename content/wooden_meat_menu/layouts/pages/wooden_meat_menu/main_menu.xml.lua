@@ -43,7 +43,8 @@ local Screen = K.component(function()
 				on_click = function()
 					sfx.main_menu_btn_click()
 					-- menu.page = "main_menu/main_menu2"
-					menu.page = "main"
+					-- menu.page = "worlds"
+					menu.page = "wooden_meat_menu/worlds"
 					-- TODO: bridge.app... (запуск мира)
 				end,
 			})
@@ -72,7 +73,7 @@ local Screen = K.component(function()
 	end)
 end)
 
-local handle -- из-за того что приходится использовать кастыль для показа меню - приходится делать кастыль тут, иначе 2 клика по одному нажатию lmb
+local handle
 function on_open()
 	if handle then
 		print("WARNING: handle already exists, disposing old one")

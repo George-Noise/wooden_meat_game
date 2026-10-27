@@ -14,5 +14,5 @@ app.load_content()
 -- -- gui.root.root:add("<iframe id='menu_frame' src='wooden_meat_menu:main_menu' size-func='unpack(gui.get_viewport())'/>")
 -- gui.root.root:add("<iframe id='menu_frame' src='wooden_meat_menu:main_menu2' size-func='unpack(gui.get_viewport())'/>")
 
-menu.page = "main_menu/main_menu"
+menu.page = "wooden_meat_menu/main_menu"
 -- menu.page = "main"
