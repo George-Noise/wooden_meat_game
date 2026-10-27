@@ -1,7 +1,6 @@
 local K = require("kompot:kompot")
 local DS = require("wooden_meat_menu:wm_ds")
 local M = K.M
-local app_bridge = require("wooden_meat_menu:app_bridge")
 local sfx = require("wooden_meat_menu:sfx")
 
 local BUTTON_WIDTH = 350
@@ -66,7 +65,7 @@ local Screen = K.component(function()
 				modifier = M:align("start"),
 				on_click = function()
 					sfx.main_menu_btn_click()
-					app_bridge.app.quit(true)
+					app.quit(true)
 				end,
 			})
 		end)

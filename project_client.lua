@@ -36,8 +36,8 @@ function on_menu_setup()
 		app.load_content()
 		
 		setup_background()
-		local app_bridge = require("wooden_meat_menu:app_bridge")
-		app_bridge.init(app)
+		-- local app_bridge = require("wooden_meat_menu:app_bridge")
+		-- app_bridge.init(app)
 		menu.page = "main_menu/main_menu"
 		menu.visible = true
 	end)
