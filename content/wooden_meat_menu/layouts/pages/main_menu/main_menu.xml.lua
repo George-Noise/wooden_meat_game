@@ -14,17 +14,14 @@ local theme = DS.theme({
 
 local Screen = K.component(function()
 	K.Box({
-		modifier = M:fill_max_size():background(theme.colors.background):block_pointer(),
+		modifier = M:fill_max_size():block_pointer(),
 	}, function()
-		K.Image("gui/menu_background", {
-			source_size = { 1920, 1080 },
-			fit = "cover",
-			modifier = M:fill_max_size(),
-		})
 
-		-- K.Box({
-		-- 	modifier = M:match_parent_size():background(K.color.with_alpha(theme.colors.background, 0.4)),
-		-- })
+		-- K.Image("gui/menu_background", {
+		-- 		source_size = { 1920, 1080 },
+		-- 		fit = "cover",
+		-- 		modifier = M:fill_max_size(),
+		-- 	})
 
 		K.Column({
 			modifier = M:padding(48):match_parent_size(), -- :background(K.color.with_alpha(theme.colors.background, 0.4))
@@ -32,6 +29,7 @@ local Screen = K.component(function()
 			width = BUTTON_WIDTH,
 			spacing = 20,
 		}, function()
+
 			K.Text("WOODEN MEAT", {
 				style = "display",
 				color = theme.colors.primary,
@@ -45,20 +43,9 @@ local Screen = K.component(function()
 				modifier = M:align("start"),
 				on_click = function()
 					sfx.main_menu_btn_click()
-					-- gui.close_layout("wooden_meat_menu:main_menu")
-					-- menu.page="worlds"
+					-- menu.page = "main_menu/main_menu2"
 					menu.page = "main"
 					-- TODO: bridge.app... (запуск мира)
-				end,
-			})
-
-			DS.Button({
-				text = "НАСТРОЙКИ",
-				size = "lg",
-				width = BUTTON_WIDTH,
-				modifier = M:align("start"),
-				on_click = function()
-					sfx.main_menu_btn_click()
 				end,
 			})
 

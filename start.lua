@@ -1,11 +1,11 @@
 -- app.tick()
--- app.config_packs({"base", "wooden_meat_menu"})
+app.config_packs({"base", "kompot", "wooden_meat_menu"})
 -- app.load_content()
 
 app.load_content()
 
 -- app bridge for main menu ui
-local app_bridge = require "wooden_meat_menu:app_bridge"
+local app_bridge = require("wooden_meat_menu:app_bridge")
 app_bridge.init(app)
 
 -- main menu ui
@@ -15,3 +15,4 @@ app_bridge.init(app)
 -- gui.root.root:add("<iframe id='menu_frame' src='wooden_meat_menu:main_menu2' size-func='unpack(gui.get_viewport())'/>")
 
 menu.page = "main_menu/main_menu"
+-- menu.page = "main"
