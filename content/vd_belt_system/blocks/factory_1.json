@@ -1,0 +1,9 @@
+{
+  "model": "custom",
+  "model-name": "factory_1",
+  "size": [3, 2, 3],
+  "hitbox": [0, 0, 0, 3, 2, 3],
+  "texture": "stone",
+  "material": "base:metal",
+  "ui-layout": "vd_belt_system:factory"
+}

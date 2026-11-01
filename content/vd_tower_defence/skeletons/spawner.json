@@ -1,0 +1,11 @@
+{
+  "root": {
+    "nodes": [
+      {
+        "name": "body",
+        "model": "spawner",
+        "offset": [0, 0, 0]
+      }
+    ]
+  }
+}

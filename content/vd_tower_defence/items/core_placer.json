@@ -1,0 +1,6 @@
+{
+  "caption": "Place Core Box",
+  "description": "Ставит коробку-ядро 3x3x3 (100 HP)",
+  "icon-type": "sprite",
+  "icon": "items:core_placer"
+}

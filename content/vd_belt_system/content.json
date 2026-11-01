@@ -1,11 +1,22 @@
 {
   "entities": [
-    "belt_item"
+    "belt_item",
+    "turret_gun"
   ],
   "blocks": [
     "transport_belt",
     "destroyer_belt",
-    "creator_belt"
+    "creator_belt",
+    "factory_1",
+    "junction",
+    "splitter",
+    "turret",
+    "copper_ore",
+    "coal_ore",
+    "drill"
   ],
-  "items": []
+  "items": [
+    "bullet_1",
+    "bullet_2"
+  ]
 }

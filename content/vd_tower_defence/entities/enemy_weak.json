@@ -1,0 +1,9 @@
+{
+  "caption": "Enemy (weak)",
+  "components": [
+    "vd_tower_defence:enemy",
+    "my_pack:health",
+    "my_pack:despawn_on_attacked"
+  ],
+  "hitbox": [1.0, 1.0, 1.0]
+}

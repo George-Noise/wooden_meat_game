@@ -1,0 +1,6 @@
+{
+  "caption": "Start Wave",
+  "description": "Запускает текущую волну врагов",
+  "icon-type": "sprite",
+  "icon": "items:wave_start"
+}

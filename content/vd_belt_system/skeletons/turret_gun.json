@@ -1,0 +1,17 @@
+{
+  "root": {
+    "nodes": [
+      {
+        "name": "gun_hand",
+        "offset": [0, 0.5, 0],
+        "nodes": [
+          {
+            "name": "gun",
+            "model": "turret_shotgun",
+            "offset": [0, -0.2, 0]
+          }
+        ]
+      }
+    ]
+  }
+}

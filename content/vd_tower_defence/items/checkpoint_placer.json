@@ -1,0 +1,6 @@
+{
+  "caption": "Place Checkpoint",
+  "description": "Ставит чекпоинт маршрута врагов (флаг)",
+  "icon-type": "sprite",
+  "icon": "items:checkpoint_placer"
+}

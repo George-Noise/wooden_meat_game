@@ -1,0 +1,9 @@
+{
+  "components": ["vd_belt_system:turret_gun"],
+  "hitbox": [0.4, 0.4, 0.4],
+  "body-type": "static",
+  "solid": false,
+  "blocking": false,
+  "selectable": false,
+  "save": false
+}

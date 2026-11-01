@@ -1,0 +1,11 @@
+{
+  "caption": "Splitter",
+  "texture": "box",
+  "model": "custom",
+  "model-name": "splitter_belt",
+  "hitbox": [0, 0, 0, 1, 0.5, 1],
+  "light-passing": true,
+  "sky-light-passing": true,
+  "material": "base:metal",
+  "script-name": "transport_belt"
+}

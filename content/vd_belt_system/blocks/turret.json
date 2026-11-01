@@ -1,0 +1,17 @@
+{
+  "caption": "Belt Turret",
+  "texture": "box",
+  "model": "custom",
+  "model-name": "turret_belt",
+  "rotation": "pane",
+  "hitbox": [0, 0, 0, 1, 1, 1],
+  "light-passing": true,
+  "sky-light-passing": true,
+  "material": "base:metal",
+  "script-name": "turret",
+  "fields": {
+    "mag": { "type": "int32", "length": 32 },
+    "mag_head": { "type": "int32" },
+    "mag_count": { "type": "int32" }
+  }
+}

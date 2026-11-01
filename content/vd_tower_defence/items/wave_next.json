@@ -1,0 +1,6 @@
+{
+  "caption": "Wave +1",
+  "description": "Увеличивает номер волны на 1",
+  "icon-type": "sprite",
+  "icon": "items:wave_next"
+}

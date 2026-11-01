@@ -4,15 +4,15 @@ local speed = belt.get_speed()
 local item_height = belt.get_item_height()
 local initialized = false
 
--- Режим визуальной отладки
 local DEBUG_MODE = false
--- Константы цветов для визуальной отладки
 local MOVING_COLOR = { 0.2, 0.9, 0.9 }
 local WAITING_COLOR = { 1.0, 0.8, 0.0 }
 local NO_PATH_COLOR = { 0.9, 0.2, 0.2 }
 local DEFAULT_COLOR = { 1.0, 1.0, 1.0 }
 
 local base_matrix = nil
+
+local splitter_counter = {}
 
 local function get_state()
 	if not SAVED_DATA.belt_x then
@@ -26,6 +26,8 @@ local function get_state()
 		SAVED_DATA.progress = 0
 		SAVED_DATA.direction = { 0, 0 }
 		SAVED_DATA.target_direction = { 0, 0 }
+		SAVED_DATA.move_dx = 0
+		SAVED_DATA.move_dz = 0
 		SAVED_DATA.moving_to_x = 0
 		SAVED_DATA.moving_to_z = 0
 		SAVED_DATA.can_move = false
@@ -41,13 +43,19 @@ local function get_state()
 end
 
 function apply_scale(scale)
-	if not DEBUG_MODE then return end
+	if not DEBUG_MODE then
+		return
+	end
 	local rig = entity.skeleton
-	if not rig then return end
+	if not rig then
+		return
+	end
 	if not base_matrix then
 		base_matrix = rig:get_matrix(0)
 	end
-	if not base_matrix then return end
+	if not base_matrix then
+		return
+	end
 
 	local matrix = {}
 	for i = 1, 16 do
@@ -60,10 +68,14 @@ function apply_scale(scale)
 end
 
 function update_visual_state()
-	if not DEBUG_MODE then return end
+	if not DEBUG_MODE then
+		return
+	end
 	local state = get_state()
 	local rig = entity.skeleton
-	if not rig then return end
+	if not rig then
+		return
+	end
 
 	local color = DEFAULT_COLOR
 
@@ -101,6 +113,8 @@ function init(item_id, count, data, bx, by, bz)
 	state.phase = "centered"
 	state.progress = 0
 	state.can_move = false
+	state.move_dx = 0
+	state.move_dz = 0
 	state.size_flip = false
 	state.current_scale = 1.0
 	state.ownership_transferred = false
@@ -124,8 +138,7 @@ function init(item_id, count, data, bx, by, bz)
 	update_visual_state()
 end
 
-function on_save()
-end
+function on_save() end
 
 function is_on_belt(x, y, z)
 	local state = get_state()
@@ -148,10 +161,129 @@ function is_leaving_belt(x, y, z)
 	return state.belt_x == x and state.belt_y == y and state.belt_z == z
 end
 
--- Получить логического владельца (для считывателей в будующем)
+function get_axis()
+	local state = get_state()
+	local dx = state.direction[1] or 0
+	return (dx ~= 0) and "x" or "z"
+end
+
+function get_target_axis()
+	local state = get_state()
+	local dir = state.direction
+	if state.phase == "moving_forward" then
+		dir = state.target_direction or dir
+	end
+	local dx = dir[1] or 0
+	return (dx ~= 0) and "x" or "z"
+end
+
 function get_owner()
 	local state = get_state()
 	return state.owner_x, state.owner_y, state.owner_z
+end
+
+function get_item_id()
+	local state = get_state()
+	return state.item_id
+end
+
+local function carries_away(x, y, z, dx, dz)
+	local t = belt.get_belt_type(x, y, z)
+	if t == "belt" or t == "destroyer" then
+		local bdx, bdz = belt.get_belt_direction(x, y, z)
+		return bdx == dx and bdz == dz
+	elseif t == "junction" then
+		local nx, ny, nz = x + dx, y, z + dz
+		return carries_away(nx, ny, nz, dx, dz)
+	elseif t == "splitter" then
+		return true
+	elseif t == "turret" then
+		return true
+	end
+	return false
+end
+
+local function commit_move(state, bx, by, bz, mx, mz, tdx, tdz)
+	state.moving_to_x = mx
+	state.moving_to_z = mz
+	state.move_dx = mx - bx
+	state.move_dz = mz - bz
+	state.target_direction = { tdx, tdz }
+	state.phase = "moving_forward"
+	state.progress = 0
+	state.can_move = true
+	state.ownership_transferred = false
+end
+
+local function plan_move()
+	local state = get_state()
+
+	if state.phase ~= "centered" then
+		return
+	end
+	local bx, by, bz = state.belt_x, state.belt_y, state.belt_z
+	if not belt.is_belt(bx, by, bz) then
+		return
+	end
+	if belt.is_creator(bx, by, bz) then
+		return
+	end
+
+	local d = state.direction
+	if not d or (d[1] == 0 and d[2] == 0) then
+		return
+	end
+
+	if belt.is_splitter(bx, by, bz) then
+		if not d or (d[1] == 0 and d[2] == 0) then
+			return
+		end
+		local candidates = {
+			{ d[1], d[2] }, -- вперёд
+			{ -d[2], d[1] }, -- влево
+			{ d[2], -d[1] }, -- вправо
+		}
+		local opts = {}
+		for _, c in ipairs(candidates) do
+			local cx, cz = bx + c[1], bz + c[2]
+			if carries_away(cx, by, cz, c[1], c[2]) and belt.is_belt_free(cx, by, cz, c[1], c[2], entity) then
+				table.insert(opts, c)
+			end
+		end
+		if #opts == 0 then
+			return
+		end
+
+		local idx = belt.splitter_peek(bx, by, bz, #opts)
+		local choice = opts[idx]
+		belt.splitter_commit(bx, by, bz)
+		commit_move(state, bx, by, bz, bx + choice[1], bz + choice[2], choice[1], choice[2])
+		return
+	end
+
+	local dx, dz = d[1], d[2]
+	local nx, nz = bx + dx, bz + dz
+
+	if not belt.is_belt_free(nx, by, nz, dx, dz, entity) then
+		return
+	end
+
+	local ntype = belt.get_belt_type(nx, by, nz)
+	local tdx, tdz
+	if ntype == "junction" then
+		tdx, tdz = dx, dz
+	elseif ntype == "splitter" then
+		tdx, tdz = dx, dz
+	elseif ntype == "turret" then
+		tdx, tdz = dx, dz
+	else
+		tdx, tdz = belt.get_belt_direction(nx, by, nz)
+	end
+	if not tdx then
+		return
+	end
+
+	commit_move(state, bx, by, bz, nx, nz, tdx, tdz)
 end
 
 function plan()
@@ -168,30 +300,7 @@ function plan()
 		initialized = true
 	end
 
-	if state.phase ~= "centered" then
-		return
-	end
-
-	if not belt.is_belt(state.belt_x, state.belt_y, state.belt_z) then
-		return
-	end
-
-	if belt.is_creator(state.belt_x, state.belt_y, state.belt_z) then
-		return
-	end
-
-	local dx, dz = state.direction[1], state.direction[2]
-	local nx, nz = state.belt_x + dx, state.belt_z + dz
-
-	if belt.is_belt_free(nx, state.belt_y, nz, dx, dz, entity) then
-		state.moving_to_x = nx
-		state.moving_to_z = nz
-		state.target_direction = { belt.get_belt_direction(nx, state.belt_y, nz) }
-		state.phase = "moving_forward"
-		state.progress = 0
-		state.can_move = true
-		state.ownership_transferred = false
-	end
+	plan_move()
 end
 
 function execute(delta)
@@ -222,7 +331,9 @@ function execute(delta)
 	end
 
 	if state.phase == "centered" and belt.is_creator(state.belt_x, state.belt_y, state.belt_z) then
-		if not state.creator_cooldown then state.creator_cooldown = 0 end
+		if not state.creator_cooldown then
+			state.creator_cooldown = 0
+		end
 		state.creator_cooldown = state.creator_cooldown - delta
 
 		if state.creator_cooldown <= 0 then
@@ -245,16 +356,8 @@ function execute(delta)
 	end
 
 	if state.phase == "moving_forward" and state.can_move then
-		if
-			not belt.is_belt_free(
-				state.moving_to_x,
-				state.belt_y,
-				state.moving_to_z,
-				state.direction[1],
-				state.direction[2],
-				entity
-			)
-		then
+		local mdx, mdz = state.move_dx or 0, state.move_dz or 0
+		if not belt.is_belt_free(state.moving_to_x, state.belt_y, state.moving_to_z, mdx, mdz, entity) then
 			state.phase = "centered"
 			state.progress = 0
 			state.can_move = false
@@ -288,29 +391,29 @@ function execute(delta)
 				return
 			end
 
+			if belt.is_turret(state.moving_to_x, state.belt_y, state.moving_to_z) then
+				local turret = require("vd_belt_system:turret")
+				local want = state.count or 1
+				local loaded = turret.load(state.moving_to_x, state.belt_y, state.moving_to_z, state.item_id, want)
+				if loaded < want then
+					state.count = want - loaded
+					drop_item()
+				end
+				entity:despawn()
+				return
+			end
+
 			state.belt_x = state.moving_to_x
 			state.belt_z = state.moving_to_z
 			state.direction = state.target_direction
+			state.move_dx = 0
+			state.move_dz = 0
 			state.phase = "centered"
 			state.progress = 0
 			state.can_move = false
 			state.ownership_transferred = false
 
-			-- Планирование следующего движения
-			local dx, dz = state.direction[1], state.direction[2]
-			local nx, nz = state.belt_x + dx, state.belt_z + dz
-
-			if not belt.is_creator(state.belt_x, state.belt_y, state.belt_z) then
-				if belt.is_belt_free(nx, state.belt_y, nz, dx, dz, entity) then
-					state.moving_to_x = nx
-					state.moving_to_z = nz
-					state.target_direction = { belt.get_belt_direction(nx, state.belt_y, nz) }
-					state.phase = "moving_forward"
-					state.progress = 0
-					state.can_move = true
-					state.ownership_transferred = false
-				end
-			end
+			plan_move()
 		end
 	end
 
@@ -327,8 +430,8 @@ function update_position()
 	local z = state.belt_z + 0.5
 
 	if state.phase == "moving_forward" then
-		x = x + state.direction[1] * state.progress
-		z = z + state.direction[2] * state.progress
+		x = x + (state.move_dx or 0) * state.progress
+		z = z + (state.move_dz or 0) * state.progress
 	end
 
 	tsf:set_pos({ x, y, z })
@@ -336,7 +439,9 @@ end
 
 function drop_item()
 	local state = get_state()
-	if not state.item_id or state.item_id <= 0 then return end
+	if not state.item_id or state.item_id <= 0 then
+		return
+	end
 	local pos = entity.transform:get_pos()
 	entities.spawn("base:drop", pos, {
 		["base:drop"] = {
@@ -349,12 +454,18 @@ end
 
 function get_plan_priority()
 	local state = get_state()
-	if state.phase ~= "centered" then return 0 end
+	if state.phase ~= "centered" then
+		return 0
+	end
 	local dx, dz = state.direction[1], state.direction[2]
-	if not dx then return 0 end
+	if not dx then
+		return 0
+	end
 	local nx, ny, nz = state.belt_x + dx, state.belt_y, state.belt_z + dz
 	local ndx, ndz = belt.get_belt_direction(nx, ny, nz)
-	if not ndx then return 0 end
+	if not ndx then
+		return 0
+	end
 	if dx == ndx and dz == ndz then
 		return 1
 	end

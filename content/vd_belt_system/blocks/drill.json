@@ -1,0 +1,9 @@
+{
+  "caption": "Drill",
+  "texture": "metal",
+  "size": [2, 2, 2],
+  "hitbox": [0, 0, 0, 2, 2, 2],
+  "script-name": "drill",
+  "tick-interval": 20,
+  "material": "base:metal"
+}

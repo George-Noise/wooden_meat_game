@@ -1,0 +1,18 @@
+{
+  "entities": [
+    "core",
+    "checkpoint",
+    "spawner",
+    "enemy_weak",
+    "enemy_strong"
+  ],
+  "items": [
+    "checkpoint_placer",
+    "wave_next",
+    "wave_prev",
+    "spawner_placer",
+    "core_placer",
+    "wave_start"
+  ],
+  "blocks": []
+}

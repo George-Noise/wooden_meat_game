@@ -1,0 +1,8 @@
+{
+  "caption": "Path Checkpoint",
+  "components": ["my_pack:despawn_on_attacked"],
+  "hitbox": [1, 0.0625, 1],
+  "body-type": "static",
+  "solid": false,
+  "blocking": false
+}

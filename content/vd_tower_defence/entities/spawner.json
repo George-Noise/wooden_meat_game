@@ -1,0 +1,8 @@
+{
+  "caption": "Enemy Spawner",
+  "components": ["vd_tower_defence:spawner", "my_pack:despawn_on_attacked"],
+  "hitbox": [1, 0.25, 1],
+  "body-type": "static",
+  "solid": false,
+  "blocking": false
+}

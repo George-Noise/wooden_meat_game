@@ -2,6 +2,7 @@ local K = require("kompot:kompot")
 local DS = require("wooden_meat_menu:wm_ds")
 local M = K.M
 local sfx = require("wooden_meat_menu:sfx")
+local launcher = require("wooden_meat_menu:launcher")
 
 local BUTTON_WIDTH = 350
 
@@ -15,12 +16,11 @@ local Screen = K.component(function()
 	K.Box({
 		modifier = M:fill_max_size():block_pointer(),
 	}, function()
-
 		-- K.Image("gui/menu_background", {
-		-- 		source_size = { 1920, 1080 },
-		-- 		fit = "cover",
-		-- 		modifier = M:fill_max_size(),
-		-- 	})
+		-- 	source_size = { 1920, 1080 },
+		-- 	fit = "cover",
+		-- 	modifier = M:fill_max_size(),
+		-- })
 
 		K.Column({
 			modifier = M:padding(48):match_parent_size(), -- :background(K.color.with_alpha(theme.colors.background, 0.4))
@@ -28,7 +28,6 @@ local Screen = K.component(function()
 			width = BUTTON_WIDTH,
 			spacing = 20,
 		}, function()
-
 			K.Text("WOODEN MEAT", {
 				style = "display",
 				color = theme.colors.primary,
@@ -36,26 +35,24 @@ local Screen = K.component(function()
 			})
 
 			DS.Button({
-				text = "ИГРАТЬ",
+				text = "ПРОДОЛЖИТЬ",
 				size = "lg",
 				width = BUTTON_WIDTH,
 				modifier = M:align("start"),
 				on_click = function()
 					sfx.main_menu_btn_click()
-					-- menu.page = "main_menu/main_menu2"
-					-- menu.page = "worlds"
-					menu.page = "wooden_meat_menu/worlds"
-					-- TODO: bridge.app... (запуск мира)
+					launcher.continue_prepared(app)
 				end,
 			})
 
 			DS.Button({
-				text = "СОХРАНЕНИЯ",
+				text = "НОВАЯ ИГРА",
 				size = "lg",
 				width = BUTTON_WIDTH,
 				modifier = M:align("start"),
 				on_click = function()
 					sfx.main_menu_btn_click()
+					launcher.play_prepared(app)
 				end,
 			})
 

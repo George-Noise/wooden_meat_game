@@ -1,0 +1,4 @@
+{
+  "sounds": ["shotgun"],
+  "textures": ["gfx/muzzle_flash", "gfx/tracer"]
+}

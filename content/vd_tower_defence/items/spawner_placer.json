@@ -1,0 +1,6 @@
+{
+  "caption": "Place Spawner",
+  "description": "Ставит точку спавна врагов (лампа)",
+  "icon-type": "sprite",
+  "icon": "items:spawner_placer"
+}
