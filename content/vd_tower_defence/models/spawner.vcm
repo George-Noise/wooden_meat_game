@@ -1,0 +1,8 @@
+@bone scale (0.0625, 0.0625, 0.0625) {
+  @box from (-8, -2, -8) to (8, 2, 8) {
+    @part tags (top, bottom, west, east, north, south) texture "blocks:metal" region(0, 0, 1, 1)
+  }
+  @box from (-2, 10, -2) to (2, 14, 2) {
+    @part tags (top, bottom, west, east, north, south) texture "blocks:lamp" region(0, 0, 1, 1)
+  }
+}

@@ -1,0 +1,10 @@
+@bone move (0, -2, 0) scale (0.0625, 0.0625, 0.0625) {
+  @box from (-8, 0, -8) to (8, 1, 8) {
+    @part tags (top, bottom, west, east, north, south) texture "blocks:metal" region(0, 0, 1, 1)
+  }
+  @bone move (0, -6, 0) {
+    @box from (-2, 10, -2) to (2, 14, 2) {
+      @part tags (top, bottom, west, east, north, south) texture "checkpoint" region(0, 0, 1, 1)
+    }
+  }
+}
